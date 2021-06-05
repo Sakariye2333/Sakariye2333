@@ -1,0 +1,164 @@
+name: manage-azure-policy-7d94875d
+on:
+  workflow_dispatch:
+    inputs:
+      remarks:
+        description: 'Reason for triggering the workflow run'
+        required: false
+        default: 'Updating Azure Policies'
+
+
+## Uncomment the following if you wish to automatically trigger workflow run with every commit
+#
+#  push:
+#    paths:
+#      - 'initiatives/_Preview_CIS_Microsoft_Azure_Foundations_Benchmark_v1.3.0_612b5213-9160-4969-8578-1518bd2a000c/**'
+#      - 'policies/Audit_virtual_machines_without_disaster_recovery_configured_0015ea4d-51ff-4ce3-8d8c-f3f8f0179a56/**'
+#      - 'policies/Vulnerability_assessment_should_be_enabled_on_your_Synapse_workspaces_0049a6b3-a662-4f3e-8635-39cf44ace45a/**'
+#      - 'policies/SQL_Server_Integration_Services_integration_runtimes_on_Azure_Data_Factory_should_be_joined_to_a_virtual_network_0088bc63-6dee-4a9c-9d29-91cfdc848952/**'
+#      - 'policies/Private_endpoint_connections_on_Batch_accounts_should_be_enabled_009a0c92-f5b4-4776-9b66-4ed2b4775563/**'
+#      - 'policies/Azure_Backup_should_be_enabled_for_Virtual_Machines_013e242c-8828-4970-87b3-ab247555486d/**'
+#      - 'policies/Cognitive_Services_accounts_should_restrict_network_access_037eea7a-bd0a-46c5-9a66-03aea78705d3/**'
+#      - 'policies/Azure_Kubernetes_Service_Private_Clusters_should_be_enabled_040732e8-d947-40b8-95d6-854c95024bf8/**'
+#      - 'policies/Audit_Linux_machines_that_have_the_specified_applications_installed_0447bc18-e2f7-4c0d-aa20-bff034275be1/**'
+#      - 'policies/Storage_account_keys_should_not_be_expired_044985bb-afe1-42cd-8a36-9d5d42424537/**'
+#      - 'policies/Azure_Cosmos_DB_allowed_locations_0473574d-2d43-4217-aefe-941fcdf7e684/**'
+#      - 'policies/Audit_VMs_that_do_not_use_managed_disks_06a78e20-9358-41c9-923c-fb736d382a4d/**'
+#      - 'policies/Configure_Azure_File_Sync_to_use_private_DNS_zones_06695360-db88-47f6-b976-7500d4297475/**'
+#      - 'policies/Resource_logs_in_Azure_Data_Lake_Store_should_be_enabled_057ef27e-665e-4328-8ea3-04b3122bd9fb/**'
+#      - 'policies/Vulnerability_Assessment_settings_for_SQL_server_should_contain_an_email_address_to_receive_scan_reports_057d6cfe-9c4f-4a6d-bc60-14420ea1f1a9/**'
+#      - 'policies/Private_endpoint_should_be_enabled_for_PostgreSQL_servers_0564d078-92f5-4f97-8398-b9f58a51f70b/**'
+#      - 'policies/Web_Application_Firewall_(WAF)_should_be_enabled_for_Azure_Front_Door_Service_service_055aa869-bc98-4af8-bafc-23f1ab6ffe2c/**'
+#      - 'policies/Deploy_Log_Analytics_agent_for_Linux_VMs_053d3325-282c-4e5c-b944-24faffd30d77/**'
+#      - 'policies/Azure_API_for_FHIR_should_use_a_customer-managed_key_to_encrypt_data_at_rest_051cba44-2429-45b9-9649-46cec11c7119/**'
+#      - 'policies/Deploy_Diagnostic_Settings_for_Service_Bus_to_Log_Analytics_workspace_04d53d87-841c-4f23-8a5b-21564380b55e/**'
+#      - 'policies/Shared_dashboards_should_not_have_markdown_tiles_with_inline_content_04c655fe-0ac7-48ae-9a32-3a2e208c7624/**'
+#      - 'policies/_Preview_Network_traffic_data_collection_agent_should_be_installed_on_Linux_virtual_machines_04c4380f-3fae-46e8-96c9-30193528f602/**'
+#      - 'policies/SQL_managed_instances_should_use_customer-managed_keys_to_encrypt_data_at_rest_048248b0-55cd-46da-b1ff-39efd52db260/**'
+#      - 'policies/_Preview_Azure_Data_Factory_linked_service_resource_type_should_be_in_allow_list_6809a3d0-d354-42fb-b955-783d207c62a8/**'
+#      - 'policies/Windows_machines_should_meet_requirements_for_Administrative_Templates_-_Network_67e010c1-640d-438e-a3a5-feaccb533a98/**'
+#      - 'policies/_Preview_Guest_Attestation_extension_should_be_installed_on_supported_Linux_virtual_machines_672fe5a1-2fcd-42d7-b85d-902b6e28c6ff/**'
+#      - 'policies/Deploy_Diagnostic_Settings_for_Service_Bus_to_Event_Hub_6b51af03-9277-49a9-a3f8-1c69c9ff7403/**'
+#      - 'policies/Deprecated_accounts_should_be_removed_from_your_subscription_6b1cbf55-e8b6-442f-ba4c-7246b6381474/**'
+#      - 'policies/Configure_Log_Analytics_agent_on_Azure_Arc_enabled_Windows_servers_69af7d4a-7b18-4044-93a9-2651498ef203/**'
+#      - 'policies/Audit_Windows_machines_that_have_the_specified_members_in_the_Administrators_group_69bf4abd-ca1e-4cf6-8b5a-762d42e61d4f/**'
+#      - 'policies/Log_Analytics_workspaces_should_block_log_ingestion_and_querying_from_public_networks_6c53d030-cc64-46f0-906d-2bc061cd1334/**'
+#      - 'policies/Deploy_-_Configure_diagnostic_settings_for_Azure_Kubernetes_Service_to_Log_Analytics_workspace_6c66c325-74c8-42fd-a286-a74b0e2939d8/**'
+#      - 'policies/Function_App_should_only_be_accessible_over_HTTPS_6d555dd1-86f2-4f1c-8ed7-5abae7c6cbab/**'
+#      - 'policies/Configure_Azure_Automation_accounts_with_private_DNS_zones_6dd01e4f-1be1-4e80-9d0b-d109e04cb064/**'
+#      - 'policies/Enable_Security_Center_s_auto_provisioning_of_the_Log_Analytics_agent_on_your_subscriptions_with_default_workspace._6df2fee6-a9ed-4fef-bced-e13be1b25f1c/**'
+#      - 'initiatives/Azure_Security_Benchmark_1f3afdf9-d0c9-4c3d-847f-89da613e70a8/**'
+#      - 'initiatives/_Preview_NIST_SP_800-171_R2_03055927-78bd-4236-86c0-f36125a10dc9/**'
+#      - 'initiatives/Audit_machines_with_insecure_password_security_settings_095e4ed9-c835-4ab6-9439-b5644362a06c/**'
+#      - 'initiatives/IRS1075_September_2016_105e0327-6175-4eb2-9af4-1fba43bdb39d/**'
+#      - 'initiatives/Configure_Azure_Monitor_Agent_to_Linux_virtual_machines_and_associate_to_Data_Collection_Rule_118f04da-0375-44d1-84e3-0fd9e1849403/**'
+#      - 'initiatives/Deploy_prerequisites_to_enable_Guest_Configuration_policies_on_virtual_machines_12794019-7a00-42cf-95c2-882eed337cc8/**'
+#      - 'initiatives/CIS_Microsoft_Azure_Foundations_Benchmark_v1.1.0_1a5bb27d-173f-493e-9568-eb56638dde4d/**'
+#      - 'initiatives/_Preview_Australian_Government_ISM_PROTECTED_27272c0b-c225-4cc3-b8b0-f2534b093077/**'
+#      - 'initiatives/UK_OFFICIAL_and_UK_NHS_3937f550-eedd-4639-9c5e-294358be442e/**'
+#      - 'initiatives/_Preview_Configure_Azure_Defender_for_SQL_agents_on_virtual_machines_39a366e6-fdde-4f41-bbf8-3757f46d1611/**'
+#      - 'initiatives/_Preview_SWIFT_CSP-CSCF_v2020_3e0c67fc-8c7c-406c-89bd-6b6bdc986a22/**'
+#      - 'initiatives/Kubernetes_cluster_pod_security_baseline_standards_for_Linux-based_workloads_a8640138-9b0a-4a28-b8cb-1666c838647d/**'
+#      - 'initiatives/HITRUST/HIPAA_a169a624-5599-4385-a696-c8d643089fab/**'
+#      - 'initiatives/_Preview_Deploy_-_Configure_prerequisites_to_enable_Azure_Monitor_and_Azure_Security_agents_on_virtual_machines_a15f3269-2e10-458c-87a4-d5989e678a73/**'
+#      - 'initiatives/_Preview_Enable_Data_Protection_Suite_9cb3cc7a-b39b-4b82-bc89-e5a5d9ff7b97/**'
+#      - 'initiatives/Configure_Azure_Monitor_Agent_to_Windows_virtual_machines_and_associate_to_Data_Collection_Rule_9575b8b7-78ab-4281-b53b-d3c1ace2260b/**'
+#      - 'initiatives/_Preview_Motion_Picture_Association_of_America_(MPAA)_92646f03-e39d-47a9-9e24-58d60ef49af8/**'
+#      - 'initiatives/ISO_27001_2013_89c6cddc-1c73-4ac1-b19c-54d1a15a42f2/**'
+#      - 'initiatives/Enable_Azure_Monitor_for_Virtual_Machine_Scale_Sets_75714362-cae7-409e-9b99-a8e5075b7fad/**'
+#      - 'initiatives/Flow_logs_should_be_configured_and_enabled_for_every_network_security_group_62329546-775b-4a3d-a4cb-eb4bb990d2c0/**'
+#      - 'initiatives/Enable_Azure_Monitor_for_VMs_55f3eceb-5573-4f18-9695-226972c6d74a/**'
+#      - 'initiatives/Canada_Federal_PBMM_4c4a5f27-de81-430b-b4e5-9cbd50595a87/**'
+#      - 'initiatives/PCI_v3.2.1_2018_496eeda9-8f2f-4d5e-8dfd-204f0a92ed41/**'
+#      - 'initiatives/Kubernetes_cluster_pod_security_restricted_standards_for_Linux-based_workloads_42b8ef37-b724-4e24-bbc8-7a7708edfe00/**'
+#      - 'initiatives/FedRAMP_Moderate_e95f5a9f-57ad-4d03-bb0b-b1d16db93693/**'
+#      - 'initiatives/Configure_Advanced_Threat_Protection_to_be_enabled_on_open-source_relational_databases_e77fc0b3-f7e9-4c58-bc13-cb753ed8e46e/**'
+#      - 'initiatives/FedRAMP_High_d5264498-16f4-418a-b659-fa7ef418175f/**'
+#      - 'initiatives/_Preview_New_Zealand_ISM_Restricted_d1a462af-7e6d-4901-98ac-61570b4ed22a/**'
+#      - 'initiatives/NIST_SP_800-53_R4_cf25b9c1-bd23-4eb6-bd2c-f4f3ac644a5f/**'
+#      - 'initiatives/Enable_Azure_Cosmos_DB_throughput_policy_cb5e1e90-7c33-491c-a15b-24885c915752/**'
+#      - 'initiatives/_Preview_Windows_machines_should_meet_requirements_for_the_Azure_compute_security_baseline_be7a78aa-3e10-4153-a5fd-8c6506dbc821/**'
+#      - 'initiatives/_Preview_CMMC_Level_3_b5629c75-5c77-4422-87b9-2509e680f8de/**'
+#      - .github/workflows/manage-azure-policy-7d94875d.yml
+jobs:
+  apply-azure-policy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS_7d94875d}}
+        allow-no-subscriptions: true
+    - name: Create or Update Azure Policies
+      uses: azure/manage-azure-policy@v0
+      with:
+        paths: |
+          initiatives/_Preview_CIS_Microsoft_Azure_Foundations_Benchmark_v1.3.0_612b5213-9160-4969-8578-1518bd2a000c/**
+          policies/Audit_virtual_machines_without_disaster_recovery_configured_0015ea4d-51ff-4ce3-8d8c-f3f8f0179a56/**
+          policies/Vulnerability_assessment_should_be_enabled_on_your_Synapse_workspaces_0049a6b3-a662-4f3e-8635-39cf44ace45a/**
+          policies/SQL_Server_Integration_Services_integration_runtimes_on_Azure_Data_Factory_should_be_joined_to_a_virtual_network_0088bc63-6dee-4a9c-9d29-91cfdc848952/**
+          policies/Private_endpoint_connections_on_Batch_accounts_should_be_enabled_009a0c92-f5b4-4776-9b66-4ed2b4775563/**
+          policies/Azure_Backup_should_be_enabled_for_Virtual_Machines_013e242c-8828-4970-87b3-ab247555486d/**
+          policies/Cognitive_Services_accounts_should_restrict_network_access_037eea7a-bd0a-46c5-9a66-03aea78705d3/**
+          policies/Azure_Kubernetes_Service_Private_Clusters_should_be_enabled_040732e8-d947-40b8-95d6-854c95024bf8/**
+          policies/Audit_Linux_machines_that_have_the_specified_applications_installed_0447bc18-e2f7-4c0d-aa20-bff034275be1/**
+          policies/Storage_account_keys_should_not_be_expired_044985bb-afe1-42cd-8a36-9d5d42424537/**
+          policies/Azure_Cosmos_DB_allowed_locations_0473574d-2d43-4217-aefe-941fcdf7e684/**
+          policies/Audit_VMs_that_do_not_use_managed_disks_06a78e20-9358-41c9-923c-fb736d382a4d/**
+          policies/Configure_Azure_File_Sync_to_use_private_DNS_zones_06695360-db88-47f6-b976-7500d4297475/**
+          policies/Resource_logs_in_Azure_Data_Lake_Store_should_be_enabled_057ef27e-665e-4328-8ea3-04b3122bd9fb/**
+          policies/Vulnerability_Assessment_settings_for_SQL_server_should_contain_an_email_address_to_receive_scan_reports_057d6cfe-9c4f-4a6d-bc60-14420ea1f1a9/**
+          policies/Private_endpoint_should_be_enabled_for_PostgreSQL_servers_0564d078-92f5-4f97-8398-b9f58a51f70b/**
+          policies/Web_Application_Firewall_(WAF)_should_be_enabled_for_Azure_Front_Door_Service_service_055aa869-bc98-4af8-bafc-23f1ab6ffe2c/**
+          policies/Deploy_Log_Analytics_agent_for_Linux_VMs_053d3325-282c-4e5c-b944-24faffd30d77/**
+          policies/Azure_API_for_FHIR_should_use_a_customer-managed_key_to_encrypt_data_at_rest_051cba44-2429-45b9-9649-46cec11c7119/**
+          policies/Deploy_Diagnostic_Settings_for_Service_Bus_to_Log_Analytics_workspace_04d53d87-841c-4f23-8a5b-21564380b55e/**
+          policies/Shared_dashboards_should_not_have_markdown_tiles_with_inline_content_04c655fe-0ac7-48ae-9a32-3a2e208c7624/**
+          policies/_Preview_Network_traffic_data_collection_agent_should_be_installed_on_Linux_virtual_machines_04c4380f-3fae-46e8-96c9-30193528f602/**
+          policies/SQL_managed_instances_should_use_customer-managed_keys_to_encrypt_data_at_rest_048248b0-55cd-46da-b1ff-39efd52db260/**
+          policies/_Preview_Azure_Data_Factory_linked_service_resource_type_should_be_in_allow_list_6809a3d0-d354-42fb-b955-783d207c62a8/**
+          policies/Windows_machines_should_meet_requirements_for_Administrative_Templates_-_Network_67e010c1-640d-438e-a3a5-feaccb533a98/**
+          policies/_Preview_Guest_Attestation_extension_should_be_installed_on_supported_Linux_virtual_machines_672fe5a1-2fcd-42d7-b85d-902b6e28c6ff/**
+          policies/Deploy_Diagnostic_Settings_for_Service_Bus_to_Event_Hub_6b51af03-9277-49a9-a3f8-1c69c9ff7403/**
+          policies/Deprecated_accounts_should_be_removed_from_your_subscription_6b1cbf55-e8b6-442f-ba4c-7246b6381474/**
+          policies/Configure_Log_Analytics_agent_on_Azure_Arc_enabled_Windows_servers_69af7d4a-7b18-4044-93a9-2651498ef203/**
+          policies/Audit_Windows_machines_that_have_the_specified_members_in_the_Administrators_group_69bf4abd-ca1e-4cf6-8b5a-762d42e61d4f/**
+          policies/Log_Analytics_workspaces_should_block_log_ingestion_and_querying_from_public_networks_6c53d030-cc64-46f0-906d-2bc061cd1334/**
+          policies/Deploy_-_Configure_diagnostic_settings_for_Azure_Kubernetes_Service_to_Log_Analytics_workspace_6c66c325-74c8-42fd-a286-a74b0e2939d8/**
+          policies/Function_App_should_only_be_accessible_over_HTTPS_6d555dd1-86f2-4f1c-8ed7-5abae7c6cbab/**
+          policies/Configure_Azure_Automation_accounts_with_private_DNS_zones_6dd01e4f-1be1-4e80-9d0b-d109e04cb064/**
+          policies/Enable_Security_Center_s_auto_provisioning_of_the_Log_Analytics_agent_on_your_subscriptions_with_default_workspace._6df2fee6-a9ed-4fef-bced-e13be1b25f1c/**
+          initiatives/Azure_Security_Benchmark_1f3afdf9-d0c9-4c3d-847f-89da613e70a8/**
+          initiatives/_Preview_NIST_SP_800-171_R2_03055927-78bd-4236-86c0-f36125a10dc9/**
+          initiatives/Audit_machines_with_insecure_password_security_settings_095e4ed9-c835-4ab6-9439-b5644362a06c/**
+          initiatives/IRS1075_September_2016_105e0327-6175-4eb2-9af4-1fba43bdb39d/**
+          initiatives/Configure_Azure_Monitor_Agent_to_Linux_virtual_machines_and_associate_to_Data_Collection_Rule_118f04da-0375-44d1-84e3-0fd9e1849403/**
+          initiatives/Deploy_prerequisites_to_enable_Guest_Configuration_policies_on_virtual_machines_12794019-7a00-42cf-95c2-882eed337cc8/**
+          initiatives/CIS_Microsoft_Azure_Foundations_Benchmark_v1.1.0_1a5bb27d-173f-493e-9568-eb56638dde4d/**
+          initiatives/_Preview_Australian_Government_ISM_PROTECTED_27272c0b-c225-4cc3-b8b0-f2534b093077/**
+          initiatives/UK_OFFICIAL_and_UK_NHS_3937f550-eedd-4639-9c5e-294358be442e/**
+          initiatives/_Preview_Configure_Azure_Defender_for_SQL_agents_on_virtual_machines_39a366e6-fdde-4f41-bbf8-3757f46d1611/**
+          initiatives/_Preview_SWIFT_CSP-CSCF_v2020_3e0c67fc-8c7c-406c-89bd-6b6bdc986a22/**
+          initiatives/Kubernetes_cluster_pod_security_baseline_standards_for_Linux-based_workloads_a8640138-9b0a-4a28-b8cb-1666c838647d/**
+          initiatives/HITRUST/HIPAA_a169a624-5599-4385-a696-c8d643089fab/**
+          initiatives/_Preview_Deploy_-_Configure_prerequisites_to_enable_Azure_Monitor_and_Azure_Security_agents_on_virtual_machines_a15f3269-2e10-458c-87a4-d5989e678a73/**
+          initiatives/_Preview_Enable_Data_Protection_Suite_9cb3cc7a-b39b-4b82-bc89-e5a5d9ff7b97/**
+          initiatives/Configure_Azure_Monitor_Agent_to_Windows_virtual_machines_and_associate_to_Data_Collection_Rule_9575b8b7-78ab-4281-b53b-d3c1ace2260b/**
+          initiatives/_Preview_Motion_Picture_Association_of_America_(MPAA)_92646f03-e39d-47a9-9e24-58d60ef49af8/**
+          initiatives/ISO_27001_2013_89c6cddc-1c73-4ac1-b19c-54d1a15a42f2/**
+          initiatives/Enable_Azure_Monitor_for_Virtual_Machine_Scale_Sets_75714362-cae7-409e-9b99-a8e5075b7fad/**
+          initiatives/Flow_logs_should_be_configured_and_enabled_for_every_network_security_group_62329546-775b-4a3d-a4cb-eb4bb990d2c0/**
+          initiatives/Enable_Azure_Monitor_for_VMs_55f3eceb-5573-4f18-9695-226972c6d74a/**
+          initiatives/Canada_Federal_PBMM_4c4a5f27-de81-430b-b4e5-9cbd50595a87/**
+          initiatives/PCI_v3.2.1_2018_496eeda9-8f2f-4d5e-8dfd-204f0a92ed41/**
+          initiatives/Kubernetes_cluster_pod_security_restricted_standards_for_Linux-based_workloads_42b8ef37-b724-4e24-bbc8-7a7708edfe00/**
+          initiatives/FedRAMP_Moderate_e95f5a9f-57ad-4d03-bb0b-b1d16db93693/**
+          initiatives/Configure_Advanced_Threat_Protection_to_be_enabled_on_open-source_relational_databases_e77fc0b3-f7e9-4c58-bc13-cb753ed8e46e/**
+          initiatives/FedRAMP_High_d5264498-16f4-418a-b659-fa7ef418175f/**
+          initiatives/_Preview_New_Zealand_ISM_Restricted_d1a462af-7e6d-4901-98ac-61570b4ed22a/**
+          initiatives/NIST_SP_800-53_R4_cf25b9c1-bd23-4eb6-bd2c-f4f3ac644a5f/**
+          initiatives/Enable_Azure_Cosmos_DB_throughput_policy_cb5e1e90-7c33-491c-a15b-24885c915752/**
+          initiatives/_Preview_Windows_machines_should_meet_requirements_for_the_Azure_compute_security_baseline_be7a78aa-3e10-4153-a5fd-8c6506dbc821/**
+          initiatives/_Preview_CMMC_Level_3_b5629c75-5c77-4422-87b9-2509e680f8de/**
